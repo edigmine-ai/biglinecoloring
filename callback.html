@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BigLineColoring · Connected</title>
+<style>body{font:17px/1.6 system-ui,sans-serif;max-width:640px;margin:48px auto;padding:0 16px;color:#1a1712;background:#FFF4C9}
+code{display:block;word-break:break-all;background:#fff;border:2px solid #1a1712;border-radius:8px;padding:12px;margin:12px 0}
+button{font:600 16px system-ui;padding:10px 18px;border:2px solid #1a1712;border-radius:999px;background:#E8553F;color:#fff;cursor:pointer}</style>
+</head><body>
+<h1>Almost done</h1>
+<p>Copy this whole address and paste it back into the terminal where the login is waiting:</p>
+<code id="u"></code>
+<button id="b" type="button">Copy address</button> <span id="s"></span>
+<script>
+const u = location.href; document.getElementById('u').textContent = u;
+document.getElementById('b').onclick = () => navigator.clipboard.writeText(u).then(
+  () => document.getElementById('s').textContent = 'Copied', () => document.getElementById('s').textContent = 'Select the address above and copy it');
+</script>
+</body></html>
