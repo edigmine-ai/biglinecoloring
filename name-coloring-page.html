@@ -22,7 +22,7 @@ select{font:600 16px system-ui;padding:8px;border:3px solid #1a1712;border-radiu
 #preview{width:100%;max-width:520px;display:block;margin:0 auto;border:3px solid #1a1712;border-radius:8px;background:#fff}
 .small{font-size:14px;color:#6b6250}
 #printimg{display:none}
-@media print{body{background:#fff}main{display:none}#printimg{display:block;width:100%}@page{margin:0}}
+@media print{body{background:#fff}main{display:none}#printimg{display:block;width:100%;height:100vh;object-fit:contain}@page{margin:0}}
 </style></head><body><main>
 <h1>Free name coloring page</h1>
 <p>Type your child's name and pick a friend. You get a printable page with the name in big bubble letters to color, made with the same extra-thick lines as our toddler coloring books (ages 2-5).</p>
@@ -36,6 +36,7 @@ select{font:600 16px system-ui;padding:8px;border:3px solid #1a1712;border-radiu
     <button data-k="hazel"><img src="name/hazel.png" alt="">Hazel Hedgehog</button>
     <button data-k="dot"><img src="name/dot.png" alt="">Dot Duck</button>
   </div>
+  <label style="margin-top:12px;font-weight:600"><input type="checkbox" id="xmas"> 🎄 Christmas version</label>
   <div class="row">
     <select id="size"><option value="letter">US Letter</option><option value="a4">A4</option></select>
     <button class="btn" id="pdf">Download PDF</button>
@@ -47,7 +48,7 @@ select{font:600 16px system-ui;padding:8px;border:3px solid #1a1712;border-radiu
 <img id="preview" alt="Your name coloring page">
 <div class="card" id="cta">
   <p><b>Love it?</b> Get a whole BigLine coloring book with <b><span id="ctaname">Noa</span>'s name</b> on the cover, the "This book belongs to" page and the certificate. Choose "Personalized with name" on any book.</p>
-  <a class="btn" href="https://www.etsy.com/shop/BigLineColoring">See the coloring books on Etsy</a>
+  <a class="btn" id="ctalink" href="https://www.etsy.com/listing/4588025856">See <span id="ctafriend">Bonnie</span>'s coloring book on Etsy</a>
 </div>
 <p><a href="free.html">More free toddler coloring pages →</a></p>
 <p class="small">Free for personal and classroom use. Illustrations made with AI tools under our own creative direction, checked by hand.</p>
@@ -57,6 +58,7 @@ select{font:600 16px system-ui;padding:8px;border:3px solid #1a1712;border-radiu
 <script>
 const SIZES = {letter: [1700, 2200, "letter"], a4: [1654, 2339, "a4"]};   // 200 dpi
 const imgs = {}; let friend = "bonnie";
+const BOOKS = {bonnie: ["Bonnie", "4588025856"], barnaby: ["Barnaby", "4590052287"], hazel: ["Hazel", "4588779387"], dot: ["Dot", "4589489708"]};
 function cleanName(v) { return (v || "").replace(/[^\p{L}\p{M} '\-]/gu, "").trim().slice(0, 12).toUpperCase(); }
 function load(k) {
   return imgs[k] || (imgs[k] = new Promise(r => { const i = new Image(); i.onload = () => r(i); i.src = "name/" + k + ".png"; }));
@@ -78,8 +80,8 @@ async function draw() {
   let cx = W / 2 - widthOf() / 2; const pos = chars.map(ch => { const p = cx; cx += x.measureText(ch).width + gap; return p; });
   x.lineWidth = size * 0.16; x.strokeStyle = "#111"; chars.forEach((ch, i) => x.strokeText(ch, pos[i], ty));  // thick outline...
   x.fillStyle = "#fff"; chars.forEach((ch, i) => x.fillText(ch, pos[i], ty));                                  // ...hollow inside
-  const img = await load(friend);                            // the friend, big, below the name
-  const bw = W - 2 * m - W * 0.12, bh = H * 0.66, k = Math.min(bw / img.width, bh / img.height);
+  const img = await load((document.getElementById("xmas").checked ? "xmas-" : "") + friend);                            // the friend, big, below the name
+  const bw = W - 2 * m - W * 0.12, bh = H * 0.60, k = Math.min(bw / img.width, bh / img.height);
   const iw = img.width * k, ih = img.height * k;
   x.drawImage(img, (W - iw) / 2, H * 0.28 + (bh - ih) / 2, iw, ih);
   x.fillStyle = "#555"; x.font = `600 ${W * 0.018}px system-ui, sans-serif`;
@@ -87,10 +89,13 @@ async function draw() {
   const url = c.toDataURL("image/png");
   document.getElementById("preview").src = url; document.getElementById("printimg").src = url;
   document.getElementById("ctaname").textContent = name.charAt(0) + name.slice(1).toLowerCase();
+  document.getElementById("ctafriend").textContent = BOOKS[friend][0];
+  document.getElementById("ctalink").href = "https://www.etsy.com/listing/" + BOOKS[friend][1];
   return {c, name, size: SIZES[document.getElementById("size").value]};
 }
 document.getElementById("name").addEventListener("input", draw);
 document.getElementById("size").addEventListener("change", draw);
+document.getElementById("xmas").addEventListener("change", draw);
 document.querySelectorAll("#friends button").forEach(b => b.addEventListener("click", () => {
   document.querySelectorAll("#friends button").forEach(o => o.classList.remove("on")); b.classList.add("on");
   friend = b.dataset.k; draw();
