@@ -1,0 +1,107 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Free Name Coloring Page Maker · BigLineColoring</title>
+<meta name="description" content="Make a free printable coloring page with your child's name in big bubble letters, next to a cute BigLine friend. Big bold lines for ages 2-5. Print or download the PDF.">
+<meta property="og:title" content="Free Name Coloring Page Maker"><meta property="og:image" content="https://edigmine-ai.github.io/biglinecoloring/name/preview.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@700&display=swap" rel="stylesheet">
+<style>
+body{font:17px/1.6 system-ui,sans-serif;margin:0;background:#FFF4C9;color:#1a1712}
+main{max-width:760px;margin:0 auto;padding:20px 16px 56px}
+h1{font-size:32px;line-height:1.15;margin:12px 0 6px}
+.card{background:#fff;border:3px solid #1a1712;border-radius:16px;padding:16px;margin:16px 0}
+label{font-weight:700;display:block;margin:4px 0 6px}
+input[type=text]{font:700 26px/1.2 Fredoka,system-ui,sans-serif;width:100%;box-sizing:border-box;padding:10px 14px;border:3px solid #1a1712;border-radius:12px;text-transform:uppercase}
+.friends{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.friends button{background:#fff;border:3px solid #ddd;border-radius:12px;padding:6px;cursor:pointer;font:600 14px system-ui}
+.friends button img{width:100%;height:70px;object-fit:contain}
+.friends button.on{border-color:#E8553F;background:#FFF0EC}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:12px}
+select{font:600 16px system-ui;padding:8px;border:3px solid #1a1712;border-radius:10px}
+.btn{display:inline-block;background:#E8553F;color:#fff;font:700 17px system-ui;padding:13px 22px;border-radius:999px;border:3px solid #1a1712;text-decoration:none;cursor:pointer}
+.btn.alt{background:#fff;color:#1a1712}
+#preview{width:100%;max-width:520px;display:block;margin:0 auto;border:3px solid #1a1712;border-radius:8px;background:#fff}
+.small{font-size:14px;color:#6b6250}
+#printimg{display:none}
+@media print{body{background:#fff}main{display:none}#printimg{display:block;width:100%}@page{margin:0}}
+</style></head><body><main>
+<h1>Free name coloring page</h1>
+<p>Type your child's name and pick a friend. You get a printable page with the name in big bubble letters to color, made with the same extra-thick lines as our toddler coloring books (ages 2-5).</p>
+<div class="card">
+  <label for="name">Child's first name</label>
+  <input id="name" type="text" maxlength="12" value="Noa" autocomplete="off">
+  <label style="margin-top:14px">Pick a friend</label>
+  <div class="friends" id="friends">
+    <button data-k="bonnie" class="on"><img src="name/bonnie.png" alt="">Bonnie Bunny</button>
+    <button data-k="barnaby"><img src="name/barnaby.png" alt="">Barnaby Bear</button>
+    <button data-k="hazel"><img src="name/hazel.png" alt="">Hazel Hedgehog</button>
+    <button data-k="dot"><img src="name/dot.png" alt="">Dot Duck</button>
+  </div>
+  <div class="row">
+    <select id="size"><option value="letter">US Letter</option><option value="a4">A4</option></select>
+    <button class="btn" id="pdf">Download PDF</button>
+    <button class="btn alt" id="print">Print</button>
+  </div>
+  <p class="small">The name stays on your device: nothing is uploaded or saved.</p>
+</div>
+<canvas id="page" style="display:none"></canvas>
+<img id="preview" alt="Your name coloring page">
+<div class="card" id="cta">
+  <p><b>Love it?</b> Get a whole BigLine coloring book with <b><span id="ctaname">Noa</span>'s name</b> on the cover, the "This book belongs to" page and the certificate. Choose "Personalized with name" on any book.</p>
+  <a class="btn" href="https://www.etsy.com/shop/BigLineColoring">See the coloring books on Etsy</a>
+</div>
+<p><a href="free.html">More free toddler coloring pages →</a></p>
+<p class="small">Free for personal and classroom use. Illustrations made with AI tools under our own creative direction, checked by hand.</p>
+</main>
+<img id="printimg" alt="">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+const SIZES = {letter: [1700, 2200, "letter"], a4: [1654, 2339, "a4"]};   // 200 dpi
+const imgs = {}; let friend = "bonnie";
+function cleanName(v) { return (v || "").replace(/[^\p{L}\p{M} '\-]/gu, "").trim().slice(0, 12).toUpperCase(); }
+function load(k) {
+  return imgs[k] || (imgs[k] = new Promise(r => { const i = new Image(); i.onload = () => r(i); i.src = "name/" + k + ".png"; }));
+}
+async function draw() {
+  const name = cleanName(document.getElementById("name").value) || "NAME";
+  const [W, H] = SIZES[document.getElementById("size").value];
+  const c = document.getElementById("page"); c.width = W; c.height = H; const x = c.getContext("2d");
+  x.fillStyle = "#fff"; x.fillRect(0, 0, W, H);
+  const m = W * 0.05;                                       // rounded frame
+  x.lineWidth = W * 0.008; x.strokeStyle = "#111"; x.beginPath(); if (x.roundRect) x.roundRect(m, m, W - 2 * m, H - 2 * m, W * 0.05); else x.rect(m, m, W - 2 * m, H - 2 * m); x.stroke();
+  await document.fonts.load("700 100px Fredoka");
+  let size = W * 0.24;                                      // bubble letters: fit the width, one line
+  x.font = `700 ${size}px Fredoka, sans-serif`;
+  const chars = [...name], widthOf = () => chars.reduce((t, ch) => t + x.measureText(ch).width, 0) + size * 0.1 * (chars.length - 1);
+  while (widthOf() > W * 0.8 && size > 40) { size -= 4; x.font = `700 ${size}px Fredoka, sans-serif`; }
+  x.textAlign = "left"; x.textBaseline = "middle"; x.lineJoin = "round"; x.miterLimit = 2;
+  const ty = H * 0.17, gap = size * 0.1;                    // letter by letter with a gap: thick outlines never merge
+  let cx = W / 2 - widthOf() / 2; const pos = chars.map(ch => { const p = cx; cx += x.measureText(ch).width + gap; return p; });
+  x.lineWidth = size * 0.16; x.strokeStyle = "#111"; chars.forEach((ch, i) => x.strokeText(ch, pos[i], ty));  // thick outline...
+  x.fillStyle = "#fff"; chars.forEach((ch, i) => x.fillText(ch, pos[i], ty));                                  // ...hollow inside
+  const img = await load(friend);                            // the friend, big, below the name
+  const bw = W - 2 * m - W * 0.12, bh = H * 0.66, k = Math.min(bw / img.width, bh / img.height);
+  const iw = img.width * k, ih = img.height * k;
+  x.drawImage(img, (W - iw) / 2, H * 0.28 + (bh - ih) / 2, iw, ih);
+  x.fillStyle = "#555"; x.font = `600 ${W * 0.018}px system-ui, sans-serif`;
+  x.fillText("BigLineColoring", W / 2, H - m - W * 0.03);
+  const url = c.toDataURL("image/png");
+  document.getElementById("preview").src = url; document.getElementById("printimg").src = url;
+  document.getElementById("ctaname").textContent = name.charAt(0) + name.slice(1).toLowerCase();
+  return {c, name, size: SIZES[document.getElementById("size").value]};
+}
+document.getElementById("name").addEventListener("input", draw);
+document.getElementById("size").addEventListener("change", draw);
+document.querySelectorAll("#friends button").forEach(b => b.addEventListener("click", () => {
+  document.querySelectorAll("#friends button").forEach(o => o.classList.remove("on")); b.classList.add("on");
+  friend = b.dataset.k; draw();
+}));
+document.getElementById("pdf").addEventListener("click", async () => {
+  const {c, name, size} = await draw();
+  const pdf = new jspdf.jsPDF({unit: "pt", format: size[2]});
+  const pw = pdf.internal.pageSize.getWidth(), ph = pdf.internal.pageSize.getHeight();
+  pdf.addImage(c.toDataURL("image/png"), "PNG", 0, 0, pw, ph);
+  pdf.save(`${name.replace(/[^A-Za-z0-9]+/g, "-") || "name"}-coloring-page.pdf`);
+});
+document.getElementById("print").addEventListener("click", async () => { await draw(); setTimeout(() => window.print(), 150); });
+draw();
+</script></body></html>
