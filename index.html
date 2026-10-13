@@ -1,13 +1,164 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>BigLineColoring</title>
-<style>body{font:17px/1.6 system-ui,sans-serif;max-width:720px;margin:32px auto;padding:0 16px;color:#1a1712;background:#FFF4C9}
-img{width:100%;border-radius:10px}a{color:#b8412f}h1{font-size:28px;margin-bottom:4px}</style>
-</head><body>
-<img src="banner.jpg" alt="BigLineColoring: Barnaby Bear, Bonnie Bunny, Hazel Hedgehog and Dot Duck">
-<h1>BigLineColoring</h1>
-<p>Printable coloring books for toddlers, ages 2-5: extra-thick lines, big simple shapes, no tiny details.
-Levels 1-3, and the child's name on the cover if you like.</p>
-<p>🎁 <b><a href="name-coloring-page.html">Free: make a coloring page with your child's name</a></b> · <a href="free.html">Free coloring pages</a></p>
-<p><a href="https://www.etsy.com/shop/BigLineColoring">Shop on Etsy</a> · <a href="privacy.html">Privacy policy</a></p>
-</body></html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>BigLineColoring · Big, bold coloring pages for toddlers</title>
+<meta name="description" content="Printable toddler coloring books with extra-thick lines and big simple shapes that little hands (ages 2-5) can actually color. Instant PDF, US Letter and A4.">
+<meta property="og:title" content="BigLineColoring: big, bold pages little hands can actually color">
+<meta property="og:description" content="Printable toddler coloring books, ages 2-5. Instant PDF download.">
+<meta property="og:image" content="https://edigmine-ai.github.io/biglinecoloring/home/stage-3.webp">
+<meta name="theme-color" content="#FBCF4E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root { --ink:#1a1712; --sun:#FBCF4E; --paper:#FFF7DA; --red:#E8553F; --green:#2E9E5B; }
+* { box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body { margin:0; background:var(--paper); color:var(--ink); font:500 18px/1.55 Fredoka, system-ui, sans-serif; }
+a { color:inherit; }
+.wrap { max-width:1080px; margin:0 auto; padding:0 18px; }
+.btn { display:inline-block; font-weight:700; text-decoration:none; padding:15px 26px; border-radius:999px; border:4px solid var(--ink);
+       background:var(--red); color:#fff; box-shadow:0 5px 0 var(--ink); transition:transform .15s; }
+.btn:active { transform:translateY(3px); box-shadow:0 2px 0 var(--ink); }
+.btn.light { background:#fff; color:var(--ink); }
+header { display:flex; align-items:center; justify-content:space-between; padding:14px 18px; max-width:1080px; margin:0 auto; }
+header b { font-size:22px; font-weight:700; }
+header nav a { margin-left:14px; font-weight:600; text-decoration:none; }
+
+/* 1. hero: the page colors itself in as you scroll, then lands on a book */
+#hero { height:300vh; position:relative; }
+.stick { position:sticky; top:0; height:100vh; display:grid; grid-template-rows:auto 1fr; overflow:hidden; }
+.headline { text-align:center; padding:10px 18px 0; }
+.headline h1 { font-size:clamp(30px, 7vw, 58px); line-height:1.05; margin:4px 0 8px; font-weight:700; }
+.headline p { margin:0 auto; max-width:560px; }
+.stage { position:relative; display:flex; align-items:center; justify-content:center; min-height:0; }
+.book { position:absolute; width:min(56vw, 300px); aspect-ratio:1; border-radius:14px; border:4px solid var(--ink);
+        background:#fff url(home/book-bonnie.webp) center/cover; box-shadow:0 18px 30px rgba(26,23,18,.25); opacity:0;
+        transform:translateY(40px) rotate(-6deg); }
+.page { position:relative; width:min(70vw, 48vh, 440px); aspect-ratio:900/1165; border:4px solid var(--ink); border-radius:12px;
+        background:#fff; box-shadow:0 14px 0 rgba(26,23,18,.18); will-change:transform; }
+.page img { position:absolute; inset:0; width:100%; height:100%; border-radius:8px; }
+.page img + img { opacity:0; }
+.crayon { position:absolute; width:min(10vw, 56px); height:min(40vw, 220px); left:62%; top:20%; will-change:transform; }
+.hint { position:absolute; bottom:18px; left:0; right:0; text-align:center; font-weight:600; opacity:.7; }
+
+section { padding:64px 0; }
+h2 { font-size:clamp(26px, 5vw, 40px); line-height:1.1; margin:0 0 18px; }
+.grid3 { display:grid; gap:16px; grid-template-columns:1fr; }
+@media (min-width:760px) { .grid3 { grid-template-columns:repeat(3, 1fr); } }
+.card { background:#fff; border:4px solid var(--ink); border-radius:20px; padding:18px; }
+.card h3 { margin:0 0 6px; font-size:21px; }
+.books .card img { width:100%; aspect-ratio:1; object-fit:cover; border-radius:12px; border:3px solid var(--ink); display:block; }
+.books .card { display:flex; flex-direction:column; gap:10px; }
+.books .card .btn { margin-top:auto; text-align:center; }
+.try { background:var(--sun); border-top:4px solid var(--ink); border-bottom:4px solid var(--ink); text-align:center; }
+details { background:#fff; border:3px solid var(--ink); border-radius:16px; padding:14px 18px; margin:10px 0; }
+summary { font-weight:700; cursor:pointer; }
+footer { padding:30px 0 50px; font-size:15px; text-align:center; }
+.reveal { opacity:0; transform:translateY(24px); transition:opacity .6s, transform .6s; }
+.reveal.in { opacity:1; transform:none; }
+@media (prefers-reduced-motion: reduce) {
+  #hero { height:auto; } .stick { position:relative; height:auto; padding-bottom:30px; }
+  .page img + img { opacity:0; } .page img.final { opacity:1; } .crayon, .hint { display:none; }
+  .reveal { opacity:1; transform:none; transition:none; } html { scroll-behavior:auto; }
+}
+</style>
+</head>
+<body>
+<header><b>🖍️ BigLineColoring</b><nav><a href="color/">Color it here</a><a href="https://www.etsy.com/shop/BigLineColoring">Shop</a></nav></header>
+
+<div id="hero">
+  <div class="stick">
+    <div class="headline">
+      <h1>Big, bold pages little hands can actually color</h1>
+      <p>Printable toddler coloring books for ages 2-5: extra-thick lines, big simple shapes, no tiny details.</p>
+    </div>
+    <div class="stage" aria-hidden="true">
+      <div class="book" id="book"></div>
+      <div class="page" id="page">
+        <img src="home/stage-0.webp" alt="">
+        <img src="home/stage-1.webp" alt="" loading="lazy">
+        <img src="home/stage-2.webp" alt="" loading="lazy">
+        <img src="home/stage-3.webp" alt="Bonnie Bunny holding a star, colored in bright crayon colors" class="final" loading="lazy">
+      </div>
+      <svg class="crayon" id="crayon" viewBox="0 0 40 160" aria-hidden="true">
+        <polygon points="8,34 20,4 32,34" fill="#E8453C" stroke="#1a1712" stroke-width="3" stroke-linejoin="round"/>
+        <rect x="8" y="32" width="24" height="124" rx="5" fill="#E8453C" stroke="#1a1712" stroke-width="3"/>
+        <rect x="8" y="56" width="24" height="12" fill="#b9322a" stroke="#1a1712" stroke-width="2"/>
+        <rect x="8" y="124" width="24" height="12" fill="#b9322a" stroke="#1a1712" stroke-width="2"/>
+      </svg>
+      <div class="hint" id="hint">Scroll to color ↓</div>
+    </div>
+  </div>
+</div>
+
+<main>
+  <section class="wrap reveal">
+    <h2>What you get</h2>
+    <div class="grid3">
+      <div class="card"><h3>📄 A printable PDF</h3>An instant download: no shipping, no waiting. Print at home on regular paper, as often as you like.</div>
+      <div class="card"><h3>📐 US Letter + A4</h3>Both paper sizes in every book, so it prints right wherever you live.</div>
+      <div class="card"><h3>🐻 20+ big, simple pages</h3>Thick lines and big shapes, plus a "This book belongs to" page and a certificate.</div>
+    </div>
+  </section>
+
+  <section class="wrap books reveal">
+    <h2>Meet the friends</h2>
+    <div class="grid3">
+      <div class="card"><img src="home/book-bonnie.webp" alt="Bonnie Bunny's Construction Fun coloring book cover" loading="lazy" width="640" height="640">
+        <h3>Bonnie Bunny's Construction Fun</h3><a class="btn" href="https://www.etsy.com/listing/4588025856">See it on Etsy</a></div>
+      <div class="card"><img src="home/book-barnaby.webp" alt="Barnaby Bear's Trick-or-Treat Fun coloring book cover" loading="lazy" width="640" height="640">
+        <h3>Barnaby Bear's Trick-or-Treat Fun</h3><a class="btn" href="https://www.etsy.com/listing/4590052287">See it on Etsy</a></div>
+      <div class="card"><img src="home/book-hazel.webp" alt="Hazel Hedgehog's Friendly Ghost Fun coloring book cover" loading="lazy" width="640" height="640">
+        <h3>Hazel Hedgehog's Friendly Ghost Fun</h3><a class="btn" href="https://www.etsy.com/listing/4588779387">See it on Etsy</a></div>
+    </div>
+    <p style="text-align:center;margin-top:22px"><a class="btn light" href="https://www.etsy.com/shop/BigLineColoring">All books in the shop →</a></p>
+  </section>
+
+  <section class="try reveal">
+    <div class="wrap">
+      <h2>Try one free</h2>
+      <p>Color a page right on your phone or tablet: tap a shape, it fills in. Or make a free page with your child's name.</p>
+      <p><a class="btn" href="color/">🖍️ Color it here</a> &nbsp; <a class="btn light" href="name-coloring-page.html">✏️ Name coloring page</a></p>
+    </div>
+  </section>
+
+  <section class="wrap reveal">
+    <h2>Questions</h2>
+    <details><summary>What ages are the books for?</summary>Ages 2 to 5. Each book is marked Level 1, 2 or 3: Level 1 has one giant shape per page for the youngest, Level 3 has small simple scenes.</details>
+    <details><summary>Do I get a physical book?</summary>No: it's a digital download (PDF). Nothing is shipped. You print it at home or at a print shop.</details>
+    <details><summary>Which paper do I need?</summary>Regular printer paper. Every book includes US Letter and A4.</details>
+    <details><summary>Can I print it more than once?</summary>Yes, as often as you like for your own family.</details>
+    <details><summary>Can I add my child's name?</summary>Yes: choose "Personalized with name" on a book's Etsy page. The name goes on the cover, the "This book belongs to" page and the certificate.</details>
+  </section>
+</main>
+<footer class="wrap">
+  <p>🖍️ BigLineColoring · <a href="https://www.etsy.com/shop/BigLineColoring">Etsy shop</a> · <a href="free.html">Free pages</a> · <a href="privacy.html">Privacy</a></p>
+  <p style="opacity:.7">Illustrations made with AI tools under our own creative direction, checked by hand.</p>
+</footer>
+<script>
+"use strict";
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const hero = document.getElementById("hero"), imgs = [...document.querySelectorAll("#page img")];
+const page = document.getElementById("page"), book = document.getElementById("book"), crayon = document.getElementById("crayon"), hint = document.getElementById("hint");
+const clamp = v => Math.max(0, Math.min(1, v));
+function frame() {
+  const r = hero.getBoundingClientRect(), total = hero.offsetHeight - innerHeight;
+  const p = clamp(-r.top / total);                       // 0..1 through the hero
+  const c = clamp(p / 0.62);                              // coloring phase
+  imgs.forEach((im, k) => { if (k) im.style.opacity = clamp((c - (k - 1) / 3) * 3); });
+  const sweep = Math.sin(c * Math.PI * 6) * 60;           // the crayon scribbles back and forth while coloring
+  const land = clamp((p - 0.66) / 0.3);                   // landing phase: the page settles onto the book
+  crayon.style.transform = `translate(${sweep - c * 120}px, ${c * 160}px) rotate(${25 + sweep / 6}deg)`;
+  crayon.style.opacity = 1 - land * 1.5;
+  page.style.transform = `translate(${land * 40}px, ${-land * 20}px) rotate(${land * 6}deg) scale(${1 - land * 0.32})`;
+  book.style.opacity = land; book.style.transform = `translate(${-land * 30}px, ${40 - land * 10}px) rotate(-6deg)`;
+  hint.style.opacity = 0.7 * (1 - clamp(p * 6));
+}
+if (!reduce) { addEventListener("scroll", () => requestAnimationFrame(frame), { passive: true }); frame(); }
+const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { threshold: 0.15 });
+document.querySelectorAll(".reveal").forEach(el => io.observe(el));
+</script>
+</body>
+</html>
