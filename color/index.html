@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Color It Here · BigLineColoring</title>
+<meta name="description" content="Free toddler coloring on your phone or tablet: tap a shape to fill it with big, bold colors. Printable BigLine pages for ages 2-5. No ads, no sign-up.">
+<meta property="og:title" content="Color It Here: free toddler coloring">
+<meta property="og:image" content="https://edigmine-ai.github.io/biglinecoloring/color/pages/bonnie-star.png">
+<meta name="theme-color" content="#FBCF4E">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root { --ink:#1a1712; --sun:#FBCF4E; --paper:#FFF4C9; --red:#E8553F; }
+* { box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+html, body { margin:0; background:var(--paper); color:var(--ink); font:600 17px/1.4 Fredoka, system-ui, sans-serif; }
+main { max-width:900px; margin:0 auto; padding:14px 16px 40px; }
+h1 { font-size:30px; margin:6px 0 4px; } p { margin:6px 0; }
+.small { font-size:14px; color:#6b6250; font-weight:500; }
+.gallery { display:grid; grid-template-columns:repeat(2,1fr); gap:12px; margin:14px 0; }
+@media (min-width:700px){ .gallery { grid-template-columns:repeat(4,1fr); } }
+.gallery button { background:#fff; border:4px solid var(--ink); border-radius:18px; padding:8px; cursor:pointer; font:inherit; color:inherit; }
+.gallery img { width:100%; aspect-ratio:1; object-fit:contain; display:block; }
+.gallery span { display:block; margin-top:4px; }
+#studio { display:none; }
+#studio.on { display:block; }
+#gallery.off { display:none; }
+.bar { display:flex; gap:10px; align-items:center; justify-content:space-between; flex-wrap:wrap; margin-bottom:10px; }
+.big { font:700 18px Fredoka, system-ui, sans-serif; border:4px solid var(--ink); border-radius:999px; padding:10px 18px; background:#fff; color:var(--ink); cursor:pointer; min-height:56px; }
+.big.go { background:var(--red); color:#fff; }
+.big[aria-pressed="true"] { background:var(--ink); color:#fff; }
+#wrap { position:relative; background:#fff; border:4px solid var(--ink); border-radius:16px; overflow:hidden; touch-action:none; }
+#wrap canvas { display:block; width:100%; height:auto; }
+#lines { position:absolute; inset:0; pointer-events:none; mix-blend-mode:multiply; }
+.palette { display:grid; grid-template-columns:repeat(6,1fr); gap:10px; margin:14px 0; justify-items:center; }
+.palette button { width:min(56px,13vw); height:min(56px,13vw); border-radius:50%; border:4px solid var(--ink); cursor:pointer; box-shadow:0 4px 0 var(--ink); }
+.palette button[aria-checked="true"] { outline:5px solid var(--red); outline-offset:3px; transform:translateY(2px); box-shadow:0 2px 0 var(--ink); }
+.tools { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; }
+#done-card { display:none; background:#fff; border:4px solid var(--ink); border-radius:18px; padding:16px; margin-top:16px; text-align:center; }
+#done-card.on { display:block; }
+#confetti { position:fixed; inset:0; pointer-events:none; z-index:20; }
+:focus-visible { outline:4px solid #3D8BFD; outline-offset:3px; }
+</style>
+</head>
+<body>
+<canvas id="confetti" aria-hidden="true"></canvas>
+<main>
+  <h1>Color it here 🖍️</h1>
+  <p>Pick a page, pick a color, tap a shape. Big, bold BigLine pages made for little hands (ages 2-5).</p>
+  <p class="small">Free. No ads, no sign-up, nothing is saved or tracked.</p>
+
+  <section id="gallery" aria-label="Pick a page">
+    <div class="gallery">
+      <button data-page="bonnie-star"><img src="pages/bonnie-star-thumb.png" alt="Bonnie Bunny holding a star"><span>Bonnie's star</span></button>
+      <button data-page="barnaby-blocks"><img src="pages/barnaby-blocks-thumb.png" alt="Barnaby Bear with a tower of blocks"><span>Barnaby's blocks</span></button>
+      <button data-page="mitten"><img src="pages/mitten-thumb.png" alt="A smiling mitten"><span>Happy mitten</span></button>
+      <button data-page="pumpkin-ghost"><img src="pages/pumpkin-ghost-thumb.png" alt="A pumpkin and a friendly ghost"><span>Pumpkin &amp; ghost</span></button>
+    </div>
+    <p><a href="../name-coloring-page.html">Or color your child's name →</a></p>
+  </section>
+
+  <section id="studio" aria-label="Coloring">
+    <div class="bar">
+      <button class="big" id="back">← Pages</button>
+      <div style="display:flex;gap:8px">
+        <button class="big" id="mode" aria-pressed="false" aria-label="Brush mode">🖌️ Brush</button>
+        <button class="big" id="mute" aria-pressed="false" aria-label="Sound off">🔊</button>
+      </div>
+    </div>
+    <div id="wrap"><canvas id="color" aria-label="Coloring page: tap a shape to fill it"></canvas><canvas id="lines" aria-hidden="true"></canvas></div>
+    <div class="palette" id="palette" role="radiogroup" aria-label="Colors"></div>
+    <div class="tools">
+      <button class="big" id="undo">↩️ Undo</button>
+      <button class="big" id="clear">🧽 Clear</button>
+      <button class="big go" id="done">⭐ Done</button>
+    </div>
+    <div id="done-card" role="dialog" aria-label="Well done">
+      <p style="font-size:24px;margin:0">Beautiful! ⭐</p>
+      <div class="tools" style="margin:12px 0">
+        <button class="big" id="save">💾 Save picture</button>
+        <button class="big" id="print">🖨️ Print</button>
+      </div>
+      <p><b>Want the whole book?</b> 20+ big, bold pages to print at home, as often as you like.</p>
+      <a class="big go" id="etsy" style="display:inline-block;text-decoration:none;margin-top:6px" href="https://www.etsy.com/shop/BigLineColoring">See the book on Etsy</a>
+    </div>
+  </section>
+  <p class="small" style="margin-top:28px">© BigLineColoring · <a href="../index.html">Home</a> · <a href="../free.html">Free printable pages</a></p>
+</main>
+<script>
+"use strict";
+const COLORS = ["#E8453C","#FF9A2E","#FFD93B","#5BC85B","#2E9E5B","#7FD3F7","#3D8BFD","#9B5DE5","#FF7EB6","#8B5A2B","#9E9E9E","#FFFFFF"];
+const NAMES = ["red","orange","yellow","green","dark green","light blue","blue","purple","pink","brown","gray","eraser"];
+const BOOKS = { "bonnie-star": "https://www.etsy.com/listing/4588025856", "barnaby-blocks": "https://www.etsy.com/listing/4590052287" };
+const $ = id => document.getElementById(id);
+const cv = $("color"), lc = $("lines"), cx = cv.getContext("2d", { willReadFrequently: true }), lx = lc.getContext("2d");
+let W = 0, H = 0, line = null, col = null, paint = COLORS[0], brush = false, muted = false, undo = [], page = "";
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+// palette
+COLORS.forEach((c, i) => {
+  const b = document.createElement("button");
+  b.style.background = c; b.setAttribute("role", "radio"); b.setAttribute("aria-label", NAMES[i]);
+  b.setAttribute("aria-checked", i === 0 ? "true" : "false");
+  if (i === 11) b.textContent = "🧽";
+  b.onclick = () => { paint = c; [...$("palette").children].forEach(o => o.setAttribute("aria-checked", "false")); b.setAttribute("aria-checked", "true"); };
+  $("palette").appendChild(b);
+});
+
+function open(name) {
+  page = name; undo = [];
+  const img = new Image();
+  img.onload = () => {
+    W = img.width; H = img.height; cv.width = lc.width = W; cv.height = lc.height = H;
+    lx.drawImage(img, 0, 0);
+    const d = lx.getImageData(0, 0, W, H).data; line = new Uint8Array(W * H);     // line-art luminance
+    for (let i = 0; i < W * H; i++) line[i] = (d[i * 4] * 0.3 + d[i * 4 + 1] * 0.59 + d[i * 4 + 2] * 0.11) | 0;
+    cx.fillStyle = "#fff"; cx.fillRect(0, 0, W, H); syncImg();
+    $("gallery").classList.add("off"); $("studio").classList.add("on"); $("done-card").classList.remove("on");
+    $("etsy").href = BOOKS[name] || "https://www.etsy.com/shop/BigLineColoring";
+    window.scrollTo(0, 0);
+  };
+  img.src = "pages/" + name + ".png";
+}
+document.querySelectorAll("[data-page]").forEach(b => b.onclick = () => open(b.dataset.page));
+$("back").onclick = () => { $("studio").classList.remove("on"); $("gallery").classList.remove("off"); };
+
+function rgb(hex) { return [parseInt(hex.slice(1, 3), 16), parseInt(hex.slice(3, 5), 16), parseInt(hex.slice(5, 7), 16)]; }
+let img = null, px = null;                 // the color layer, kept in memory (no read-back from the canvas on every tap)
+function syncImg() { img = cx.getImageData(0, 0, W, H); px = new Uint32Array(img.data.buffer); }
+const near = (a, b) => a === b || Math.abs((a & 255) - (b & 255)) < 40 && Math.abs(((a >> 8) & 255) - ((b >> 8) & 255)) < 40 &&
+                       Math.abs(((a >> 16) & 255) - ((b >> 16) & 255)) < 40;
+let seen = null, stackBuf = null, list = null;
+
+// tap to fill: the region is bounded by the line art (never by the colors), so it never leaks through lines
+function fill(sx, sy) {
+  const N = W * H, seed = sy * W + sx; if (line[seed] < 140) return 0;
+  if (!img) syncImg();
+  const [r, g, b] = rgb(paint), c = (255 << 24) | (b << 16) | (g << 8) | r, target = px[seed];
+  if (near(target, c)) return 0;
+  if (!seen || seen.length !== N) { seen = new Uint8Array(N); stackBuf = new Int32Array(N); list = new Int32Array(N); } else seen.fill(0);
+  let sp = 0, n = 0, x0 = W, x1 = 0, y0 = H, y1 = 0;
+  stackBuf[sp++] = seed;
+  while (sp) {                                           // scanline fill on typed arrays
+    const i = stackBuf[--sp]; if (seen[i] || line[i] < 140 || !near(px[i], target)) continue;
+    const y = (i / W) | 0, row = y * W; let l = i, rr = i;
+    while (l > row && !seen[l - 1] && line[l - 1] >= 140 && near(px[l - 1], target)) l--;
+    while (rr < row + W - 1 && !seen[rr + 1] && line[rr + 1] >= 140 && near(px[rr + 1], target)) rr++;
+    for (let j = l; j <= rr; j++) {
+      seen[j] = 1; list[n++] = j;
+      if (y > 0 && !seen[j - W] && line[j - W] >= 140) stackBuf[sp++] = j - W;
+      if (y < H - 1 && !seen[j + W] && line[j + W] >= 140) stackBuf[sp++] = j + W;
+    }
+    const lx0 = l - row, lx1 = rr - row; if (lx0 < x0) x0 = lx0; if (lx1 > x1) x1 = lx1; if (y < y0) y0 = y; if (y > y1) y1 = y;
+  }
+  if (n < 20) return 0;
+  const inner = n;
+  for (let q = 0; q < inner; q++) {                      // soak into the soft grey line edge (no white halo):
+    const j = list[q];                                   // only pixels at the border of the region have such neighbours
+    if (seen[j + 1] && seen[j - 1] && seen[j + W] && seen[j - W]) continue;
+    for (const d of [1, -1, W, -W, 2, -2, 2 * W, -2 * W]) { const k = j + d; if (k >= 0 && k < N && !seen[k] && line[k] >= 60) { seen[k] = 1; list[n++] = k; } }
+  }
+  const idx = list.slice(0, n), old = new Uint32Array(n);
+  for (let q = 0; q < n; q++) { const k = idx[q]; old[q] = px[k]; px[k] = c; }
+  undo.push({ idx, old }); if (undo.length > 40) undo.shift();
+  x0 = Math.max(0, x0 - 2); y0 = Math.max(0, y0 - 2); x1 = Math.min(W - 1, x1 + 2); y1 = Math.min(H - 1, y1 + 2);
+  cx.putImageData(img, 0, 0, x0, y0, x1 - x0 + 1, y1 - y0 + 1);   // redraw only the changed rectangle
+  pop(); return n;
+}
+
+// brush mode: chunky strokes on the color layer (the lines stay on top in their own layer)
+let drawing = false, last = null, stroke = null;
+function pt(e) { const r = cv.getBoundingClientRect(); return [(e.clientX - r.left) * W / r.width, (e.clientY - r.top) * H / r.height]; }
+cv.addEventListener("pointerdown", e => {
+  const [x, y] = pt(e);
+  if (!brush) { fill(Math.floor(x), Math.floor(y)); return; }
+  drawing = true; last = [x, y]; stroke = new ImageData(new Uint8ClampedArray(img ? img.data : cx.getImageData(0, 0, W, H).data), W, H);
+  cv.setPointerCapture(e.pointerId); dot(x, y);
+});
+cv.addEventListener("pointermove", e => { if (!drawing) return; const [x, y] = pt(e); cx.strokeStyle = paint; cx.lineWidth = W * 0.035; cx.lineCap = "round";
+  cx.beginPath(); cx.moveTo(last[0], last[1]); cx.lineTo(x, y); cx.stroke(); last = [x, y]; });
+cv.addEventListener("pointerup", () => { if (drawing && stroke) { undo.push({ snap: stroke }); syncImg(); } drawing = false; stroke = null; });
+function dot(x, y) { cx.fillStyle = paint; cx.beginPath(); cx.arc(x, y, W * 0.0175, 0, 7); cx.fill(); }
+
+$("undo").onclick = () => { const u = undo.pop(); if (!u) return;
+  if (u.snap) { cx.putImageData(u.snap, 0, 0); syncImg(); return; }
+  for (let q = 0; q < u.idx.length; q++) px[u.idx[q]] = u.old[q];
+  cx.putImageData(img, 0, 0); };
+$("clear").onclick = () => { undo.push({ snap: new ImageData(new Uint8ClampedArray(img.data), W, H) }); cx.fillStyle = "#fff"; cx.fillRect(0, 0, W, H); syncImg(); };
+$("mode").onclick = () => { brush = !brush; $("mode").setAttribute("aria-pressed", brush); $("mode").textContent = brush ? "🪣 Fill" : "🖌️ Brush"; };
+$("mute").onclick = () => { muted = !muted; $("mute").setAttribute("aria-pressed", muted); $("mute").textContent = muted ? "🔇" : "🔊"; $("mute").setAttribute("aria-label", muted ? "Sound on" : "Sound off"); };
+
+// a soft pop (made in the browser, no sound files)
+let ac = null;
+function pop() { if (muted) return; try { ac = ac || new AudioContext(); const o = ac.createOscillator(), g = ac.createGain();
+  o.frequency.setValueAtTime(520, ac.currentTime); o.frequency.exponentialRampToValueAtTime(260, ac.currentTime + 0.12);
+  g.gain.setValueAtTime(0.18, ac.currentTime); g.gain.exponentialRampToValueAtTime(0.001, ac.currentTime + 0.15);
+  o.connect(g); g.connect(ac.destination); o.start(); o.stop(ac.currentTime + 0.16); } catch (e) {} }
+
+function colored() {                       // share of the white areas that got a color
+  const p = img.data; let open = 0, done = 0;
+  for (let i = 0; i < W * H; i += 7) { if (line[i] < 140) continue; open++; if (!(p[i * 4] > 245 && p[i * 4 + 1] > 245 && p[i * 4 + 2] > 245)) done++; }
+  return open ? done / open : 0;
+}
+function confetti() {
+  if (reduce) return;
+  const c = $("confetti"), x = c.getContext("2d"); c.width = innerWidth; c.height = innerHeight;
+  const bits = Array.from({ length: 120 }, (_, i) => ({ x: Math.random() * c.width, y: -20 - Math.random() * c.height * 0.5,
+    v: 2 + Math.random() * 3, s: 6 + Math.random() * 6, c: COLORS[i % 10], a: Math.random() * 6 }));
+  let t = 0; (function f() { x.clearRect(0, 0, c.width, c.height);
+    bits.forEach(b => { b.y += b.v; b.a += 0.1; x.fillStyle = b.c; x.fillRect(b.x + Math.sin(b.a) * 8, b.y, b.s, b.s); });
+    if (++t < 160) requestAnimationFrame(f); else x.clearRect(0, 0, c.width, c.height); })();
+}
+$("done").onclick = () => { if (colored() > 0.8) confetti(); $("done-card").classList.add("on"); $("done-card").scrollIntoView({ behavior: reduce ? "auto" : "smooth" }); };
+
+function finished() {                      // colors + lines + a small mark in the corner
+  const o = document.createElement("canvas"); o.width = W; o.height = H; const x = o.getContext("2d");
+  x.drawImage(cv, 0, 0); x.globalCompositeOperation = "multiply"; x.drawImage(lc, 0, 0); x.globalCompositeOperation = "source-over";
+  x.font = `600 ${Math.round(W * 0.022)}px Fredoka, sans-serif`; x.fillStyle = "rgba(60,60,60,.8)"; x.textAlign = "right";
+  x.fillText("BigLineColoring", W - W * 0.03, H - H * 0.025);
+  return o;
+}
+$("save").onclick = () => { const a = document.createElement("a"); a.download = `bigline-${page}.png`; a.href = finished().toDataURL("image/png"); a.click(); };
+$("print").onclick = () => { const w = window.open(""); if (!w) return;
+  w.document.write(`<title>Print</title><style>@page{margin:0}body{margin:0}img{width:100%;height:100vh;object-fit:contain}</style><img src="${finished().toDataURL("image/png")}" onload="print()">`); w.document.close(); };
+
+if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
+window.__fill = fill;                      // for the automated tests
+</script>
+</body>
+</html>
