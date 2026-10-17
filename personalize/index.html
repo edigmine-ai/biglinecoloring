@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Name Coloring Books · BigLineColoring</title>
+<meta name="description" content="See your child's name on a big-line toddler coloring book before you buy it on Etsy.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="store.css">
+</head>
+<body>
+<header class="top"><b>🖍️ BigLineColoring</b><a href="#faq">Questions</a></header>
+<main>
+  <section class="wrap" style="padding-top:var(--space-4)">
+    <h1>A coloring book with their name on it</h1>
+    <p class="muted">Thick lines a 2-year-old can color, with their name on the cover, the "this book belongs to" page and
+      the certificate. See it here first, then buy it in our Etsy shop.</p>
+    <div class="steps" style="margin-top:var(--space-5)">
+      <div class="card"><h3>1 · Pick a book</h3>One friendly character, about 20 big pages.</div>
+      <div class="card"><h3>2 · Add their name</h3>See it on the cover before you pay.</div>
+      <div class="card"><h3>3 · Buy on Etsy</h3>Choose "Personalized with name". The PDF comes in Etsy messages within 24 hours.</div>
+    </div>
+  </section>
+
+  <section class="wrap" aria-labelledby="why-h">
+    <h2 id="why-h">Why parents pick this one</h2>
+    <div class="steps">
+      <div class="card"><h3>Nothing shipped</h3>A printable PDF (US Letter and A4): print it at home as often as you like.</div>
+      <div class="card"><h3>See it before you pay</h3>Their name on the real cover, live as you type, and every page of the
+        book shown up front.</div>
+      <div class="card"><h3>Made for little hands</h3>Extra-thick lines and big shapes a 2-year-old can color, three levels
+        up to age 5.</div>
+      <div class="card"><h3>Not right? Money back</h3>If a page isn't clean and colorable, you get a full refund and keep
+        the file.</div>
+      <div class="card"><h3>Their name on it</h3>On the cover, the "this book belongs to" page and the certificate.</div>
+      <div class="card"><h3>Teachers too</h3>Choose "Classroom license" on Etsy to print for one class.</div>
+    </div>
+  </section>
+
+  <section class="wrap" id="pick" aria-labelledby="pick-h">
+    <h2 id="pick-h">1 · Pick a book</h2>
+    <div class="chips" role="group" aria-label="Filter by level" id="levels">
+      <button class="chip" aria-pressed="true" data-level="">All</button>
+      <button class="chip" aria-pressed="false" data-level="1">Level 1 · age 2+</button>
+      <button class="chip" aria-pressed="false" data-level="2">Level 2 · age 3+</button>
+      <button class="chip" aria-pressed="false" data-level="3">Level 3 · age 4-5</button>
+    </div>
+    <div class="books" role="radiogroup" aria-labelledby="pick-h" id="books"><p class="muted">Loading the books…</p></div>
+    <p class="muted" id="books-empty" hidden>No books at this level yet. Try another level.</p>
+  </section>
+
+  <section class="wrap" id="make" aria-labelledby="make-h">
+    <h2 id="make-h">2 · Add their name</h2>
+    <div class="make">
+      <form class="card" id="form" novalidate>
+        <div class="field" id="name-field">
+          <label for="name">Child's first name</label>
+          <input id="name" name="name" autocomplete="off" maxlength="20" placeholder="e.g. Ava" aria-describedby="name-msg">
+          <div class="hint"><span class="msg" id="name-msg">Letters only, up to 20.</span><span id="count">0/20</span></div>
+        </div>
+        <p id="chosen" class="muted" style="margin:var(--space-4) 0 0">Pick a book above first.</p>
+        <button class="btn" id="buy" type="submit" style="width:100%">Buy it on Etsy · <span id="price">$6.99</span></button>
+        <p class="muted" style="font-size:var(--text-sm);margin-bottom:0">Opens the book in our Etsy shop and copies the name
+          for you. Not right? Full refund, keep the file.</p>
+        <div class="notice success" id="handoff" role="status" hidden style="margin-top:var(--space-4)">
+          <b>Almost done!</b> On Etsy, choose <b>"Personalized with name"</b>, paste <b id="handoff-name"></b> in the
+          name box, and add it to your cart. The Etsy page didn't open? <a id="handoff-link" href="#" target="_blank"
+          rel="noopener">Open it here</a>.</div>
+        <div class="notice danger" id="err" role="alert" hidden></div>
+      </form>
+      <div class="preview" aria-live="polite">
+        <canvas id="cover" width="840" height="1088" role="img" aria-label="Cover preview"></canvas>
+        <p class="muted" style="font-size:var(--text-sm)">Preview of the real cover. The name also goes on the "belongs to"
+          page and the certificate.</p>
+        <p><a class="btn secondary" id="allpages" href="#" target="_blank" rel="noopener" hidden>See every page of this book</a></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap" id="faq">
+    <h2>Questions</h2>
+    <details><summary>How fast do I get it?</summary>The personalized PDF comes in Etsy messages within 24 hours, usually
+      sooner. (The plain book without a name downloads right away.)</details>
+    <details><summary>Is anything shipped?</summary>No. You get two PDF files (US Letter and A4) to print at home or at a
+      print shop. Black lines only, so it's easy on ink.</details>
+    <details><summary>What ages is it for?</summary>2 to 5. Level 1 has one giant picture per page for the youngest,
+      Level 3 has small simple scenes.</details>
+    <details><summary>I made a typo in the name.</summary>Message us on Etsy right away and we'll send the book with the
+      right name.</details>
+    <details><summary>What if a page isn't good?</summary>Message us and we'll refund you in full. Keep the file.</details>
+    <details><summary>How are the pictures made?</summary>With AI tools, under our own direction, and every page is checked
+      for clean, thick lines before a book goes in the shop.</details>
+    <details><summary>What happens to my child's name?</summary>This page doesn't send or keep the name anywhere: the preview
+      is drawn on your own device. On Etsy, we only use it to make your book.</details>
+  </section>
+</main>
+<footer class="wrap">🖍️ BigLineColoring · <a href="../terms.html">Terms</a> · <a href="../privacy.html">Privacy</a> · <a href="../">Home</a> ·
+  <a href="https://www.etsy.com/shop/BigLineColoring">Message us on Etsy</a></footer>
+<script>window.STORE_MODE = "etsy";</script>
+<script src="store.js"></script>
+</body>
+</html>
