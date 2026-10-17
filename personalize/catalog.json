@@ -1,1 +1,162 @@
-[]
+[
+ {
+  "id": 32,
+  "title": "Bonnie Bunny's Baby Dino Fun",
+  "level": 2,
+  "character": "Bonnie Bunny",
+  "pages": 23,
+  "story": false,
+  "cover": "covers/32.jpg",
+  "etsy": "https://www.etsy.com/listing/4593380769"
+ },
+ {
+  "id": 31,
+  "title": "Barnaby Bear's Pumpkin Cat Fun",
+  "level": 1,
+  "character": "Barnaby Bear",
+  "pages": 23,
+  "story": false,
+  "cover": "covers/31.jpg",
+  "etsy": "https://www.etsy.com/listing/4592953755"
+ },
+ {
+  "id": 30,
+  "title": "Dot Duck's Playful Kitten Adventures",
+  "level": 3,
+  "character": "Dot Duck",
+  "pages": 23,
+  "story": false,
+  "cover": "covers/30.jpg",
+  "etsy": "https://www.etsy.com/listing/4592197983"
+ },
+ {
+  "id": 29,
+  "title": "Hazel Hedgehog's Nighttime Friends",
+  "level": 2,
+  "character": "Hazel Hedgehog",
+  "pages": 22,
+  "story": false,
+  "cover": "covers/29.jpg",
+  "etsy": "https://www.etsy.com/listing/4591519695"
+ },
+ {
+  "id": 28,
+  "title": "Bonnie Bunny's Magical Rainbow Unicorns",
+  "level": 1,
+  "character": "Bonnie Bunny",
+  "pages": 23,
+  "story": false,
+  "cover": "covers/28.jpg",
+  "etsy": "https://www.etsy.com/listing/4590803023"
+ },
+ {
+  "id": 27,
+  "title": "Barnaby Bear's Trick-or-Treat Fun",
+  "level": 3,
+  "character": "Barnaby Bear",
+  "pages": 23,
+  "story": false,
+  "cover": "covers/27.jpg",
+  "etsy": "https://www.etsy.com/listing/4590052287"
+ },
+ {
+  "id": 26,
+  "title": "Dot Duck's Royal Castle Fun",
+  "level": 2,
+  "character": "Dot Duck",
+  "pages": 22,
+  "story": false,
+  "cover": "covers/26.jpg",
+  "etsy": "https://www.etsy.com/listing/4589489708"
+ },
+ {
+  "id": 25,
+  "title": "Hazel Hedgehog's Friendly Ghost Fun",
+  "level": 1,
+  "character": "Hazel Hedgehog",
+  "pages": 23,
+  "story": false,
+  "cover": "covers/25.jpg",
+  "etsy": "https://www.etsy.com/listing/4588779387"
+ },
+ {
+  "id": 24,
+  "title": "Bonnie Bunny's Construction Fun",
+  "level": 3,
+  "character": "Bonnie Bunny",
+  "pages": 21,
+  "story": false,
+  "cover": "covers/24.jpg",
+  "etsy": "https://www.etsy.com/listing/4588025856"
+ },
+ {
+  "id": 23,
+  "title": "Barnaby Bear's Costume Party Fun",
+  "level": 2,
+  "character": "Barnaby Bear",
+  "pages": 21,
+  "story": false,
+  "cover": "covers/23.jpg",
+  "etsy": "https://www.etsy.com/listing/4587381943"
+ },
+ {
+  "id": 22,
+  "title": "Dot Duck's Pet Fun",
+  "level": 1,
+  "character": "Dot Duck",
+  "pages": 22,
+  "story": false,
+  "cover": "covers/22.jpg",
+  "etsy": "https://www.etsy.com/listing/4586896837"
+ },
+ {
+  "id": 18,
+  "title": "Pip's Forest Friends",
+  "level": 3,
+  "character": "Pip",
+  "pages": 23,
+  "story": false,
+  "cover": "covers/18.jpg",
+  "etsy": "https://www.etsy.com/listing/4585512893"
+ },
+ {
+  "id": 10,
+  "title": "Pumpkin Patch Fun",
+  "level": 3,
+  "character": "Chipper",
+  "pages": 23,
+  "story": false,
+  "cover": "covers/10.jpg",
+  "etsy": "https://www.etsy.com/listing/4585117213"
+ },
+ {
+  "id": 9,
+  "title": "Pip's Pumpkin Patch Adventure",
+  "level": 3,
+  "character": "Pip",
+  "pages": 22,
+  "story": false,
+  "cover": "covers/9.jpg",
+  "etsy": "https://www.etsy.com/listing/4585122738"
+ },
+ {
+  "id": 7,
+  "title": "Pip's Happy Halloween Colors",
+  "level": 3,
+  "character": "Pip",
+  "pages": 23,
+  "story": false,
+  "cover": "covers/7.jpg",
+  "etsy": "https://www.etsy.com/listing/4585115924"
+ },
+ {
+  "id": 6,
+  "title": "Leafy's Autumn Apple Adventures",
+  "level": 3,
+  "character": "Pip",
+  "pages": 20,
+  "story": false,
+  "cover": "covers/6.jpg",
+  "etsy": "https://www.etsy.com/listing/4585103101"
+ }
+]
