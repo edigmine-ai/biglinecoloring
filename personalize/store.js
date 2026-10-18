@@ -25,8 +25,12 @@ function renderBooks() {
     el.type = "button"; el.className = "book"; el.setAttribute("role", "radio");
     el.setAttribute("aria-checked", chosen && chosen.id === b.id ? "true" : "false");
     el.tabIndex = (chosen ? chosen.id === b.id : i === 0) ? 0 : -1;
-    el.innerHTML = `<img src="${coverUrl(b)}" alt="" loading="lazy"><div class="t"></div>
-      <span class="badge">Level ${b.level || "-"}</span> <span class="muted" style="font-size:var(--text-xs)">${b.pages} pages${b.story ? " · story" : ""}</span>`;
+    const img = document.createElement("img"); img.src = coverUrl(b); img.alt = ""; img.loading = "lazy";
+    const t = document.createElement("div"); t.className = "t";
+    const badge = document.createElement("span"); badge.className = "badge"; badge.textContent = `Level ${b.level || "-"}`;
+    const meta = document.createElement("span"); meta.className = "muted"; meta.style.fontSize = "var(--text-xs)";
+    meta.textContent = ` ${Number(b.pages) || ""} pages${b.story ? " · story" : ""}`;
+    el.append(img, t, " ", badge, meta);                                        // text only: catalog data never becomes HTML
     el.querySelector(".t").textContent = b.title;
     el.addEventListener("click", () => choose(b));
     el.addEventListener("keydown", (e) => {
