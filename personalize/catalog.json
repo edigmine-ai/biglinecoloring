@@ -120,6 +120,16 @@
   "etsy": "https://www.etsy.com/listing/4585512893"
  },
  {
+  "id": 16,
+  "title": "Buddy Bear's Shape Toy Adventure",
+  "level": 2,
+  "character": "Buddy Bear",
+  "pages": 23,
+  "story": false,
+  "cover": "covers/16.jpg",
+  "etsy": "https://www.etsy.com/listing/4585123506"
+ },
+ {
   "id": 10,
   "title": "Pumpkin Patch Fun",
   "level": 3,
