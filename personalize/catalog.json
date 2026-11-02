@@ -110,6 +110,36 @@
   "etsy": "https://www.etsy.com/listing/4586896837"
  },
  {
+  "id": 21,
+  "title": "Hazel Hedgehog's Christmas Present Adventure",
+  "level": 3,
+  "character": "Hazel Hedgehog",
+  "pages": 23,
+  "story": false,
+  "cover": "covers/21.jpg",
+  "etsy": "https://www.etsy.com/listing/4586754358"
+ },
+ {
+  "id": 20,
+  "title": "Bonnie Bunny's Sweet Holiday Treats",
+  "level": 2,
+  "character": "Bonnie Bunny",
+  "pages": 20,
+  "story": false,
+  "cover": "covers/20.jpg",
+  "etsy": "https://www.etsy.com/listing/4586375903"
+ },
+ {
+  "id": 19,
+  "title": "Barnaby Bear's Cozy Winter Adventures",
+  "level": 1,
+  "character": "Barnaby Bear",
+  "pages": 22,
+  "story": false,
+  "cover": "covers/19.jpg",
+  "etsy": "https://www.etsy.com/listing/4586376702"
+ },
+ {
   "id": 18,
   "title": "Pip's Forest Friends",
   "level": 3,
