@@ -1,5 +1,25 @@
 [
  {
+  "id": 34,
+  "title": "Hazel Hedgehog's Christmas Tree Gifts",
+  "level": 2,
+  "character": "Hazel Hedgehog",
+  "pages": 22,
+  "story": false,
+  "cover": "covers/34.jpg",
+  "etsy": "https://www.etsy.com/listing/4610386652"
+ },
+ {
+  "id": 33,
+  "title": "Bonnie Bunny's First Day of Preschool Fun",
+  "level": 2,
+  "character": "Bonnie Bunny",
+  "pages": 11,
+  "story": true,
+  "cover": "covers/33.jpg",
+  "etsy": "https://www.etsy.com/listing/4610336461"
+ },
+ {
   "id": 32,
   "title": "Bonnie Bunny's Baby Dino Fun",
   "level": 2,
