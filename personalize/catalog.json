@@ -1,5 +1,25 @@
 [
  {
+  "id": 36,
+  "title": "Barnaby Bear's Sweet Gingerbread Pals",
+  "level": 1,
+  "character": "Barnaby Bear",
+  "pages": 23,
+  "story": false,
+  "cover": "covers/36.jpg",
+  "etsy": "https://www.etsy.com/listing/4611060595"
+ },
+ {
+  "id": 35,
+  "title": "Dot Duck's New Baby Surprise",
+  "level": 2,
+  "character": "Dot Duck",
+  "pages": 12,
+  "story": true,
+  "cover": "covers/35.jpg",
+  "etsy": "https://www.etsy.com/listing/4611036693"
+ },
+ {
   "id": 34,
   "title": "Hazel Hedgehog's Christmas Tree Gifts",
   "level": 2,
